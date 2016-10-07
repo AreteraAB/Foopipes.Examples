@@ -5,9 +5,7 @@ Quick start:
     docker-compose build
     docker-compose up
 
-Now you can browse to:
-<http://localhost:9200/ponty/_search?q=.NET>
-Or trigger the webhook with: <http://localhost:5000/>
+Now you can browse to: <http://localhost:9200/ponty/_search?q=.NET>
 
 *Note:* this example has the compiled Typescript files in ./modules for ease of use. 
 
@@ -54,4 +52,4 @@ Start with:
 
 Or:
 
-    docker -v _abs path to currentdir_:/dotnetapp/project -p 5000:5000 myaggregator
+    docker -v <abs path to currentdir>:/dotnetapp/project -p 5000:5000 myaggregator
