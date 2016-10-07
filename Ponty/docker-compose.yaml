@@ -1,0 +1,19 @@
+version: '2'
+services:
+  elasticsearch:
+    image: elasticsearch:latest
+    ports:
+     - "9200:9200"
+     - "9300:9300"
+
+  contentaggregator:
+    build: .
+    volumes:
+     - ./images:/var/images
+     - .:/dotnetapp/project
+    ports:
+     - "5000:5000"
+    links:
+     - elasticsearch
+    environment:
+     - elasticsearch=elasticsearch

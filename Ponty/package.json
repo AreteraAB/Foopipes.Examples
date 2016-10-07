@@ -1,0 +1,11 @@
+{
+  "name": "ponty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/node": "^6.0.45",
+    "typescript": "2.0.3"
+  },
+  "dependencies": {}
+}
