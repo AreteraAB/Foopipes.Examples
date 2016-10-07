@@ -10,7 +10,6 @@ services:
     build: .
     volumes:
      - ./images:/var/images
-     - .:/dotnetapp/project
     ports:
      - "5000:5000"
     links:

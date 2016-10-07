@@ -52,4 +52,4 @@ Start with:
 
 Or:
 
-    docker -v <abs path to currentdir>:/dotnetapp/project -p 5000:5000 myaggregator
+    docker -v ~/images:/var/images -p 5000:5000 myaggregator
