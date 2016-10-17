@@ -1,6 +1,6 @@
-﻿import * as contentAggregator from "contentAggregator";
+﻿import * as contentaggregator from "contentaggregator";
 
-export function myFunction(callback: (error, res) => void, data: Object, context: contentAggregator.INodeContext)
+export function myFunction(callback: (error, res) => void, data: Object, context: contentaggregator.INodeContext)
 {
     console.log("Hello world");
     callback(null, data);
