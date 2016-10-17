@@ -1,7 +1,7 @@
 "use strict";
-function myFunction(callback, event, context) {
+function myFunction(callback, data, context) {
     console.log("Hello world");
-    callback(null, event);
+    callback(null, data);
 }
 exports.myFunction = myFunction;
 ;

@@ -1,2 +1,5 @@
-    node_modules
-    modules_src
+node_modules
+modules
+images
+docker-compose.yaml
+Readme.md

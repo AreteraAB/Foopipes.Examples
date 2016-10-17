@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "devDependencies": {
-    "@types/node": "^6.0.45",
     "typescript": "2.0.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@types/node": "^6.0.45",
+	"contentaggregator": "^0.1.0"
+  }
 }
