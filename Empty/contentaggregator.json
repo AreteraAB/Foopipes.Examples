@@ -4,7 +4,7 @@
       "assemblyName": "ContentAggregator.ElasticSearch"
     }
   ],
-  "inputs": {
+  "bindings": {
     "scheduler": {
       "type": "scheduler",
       "interval": "00:01:00"

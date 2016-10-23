@@ -15,20 +15,8 @@ Now you can browse to: <http://localhost:9200/_search?q=>
 * Docker-compose file with elasticsearch
 * Typescript 
 
-## Building typescript ##
-Prerequisites: Node.js - <https://nodejs.org/>
-
-Install Typescript v2
-
-    npm install -g typescript
-
-Install dependencies (from package.json)
-
-    npm install
-
-Compile typescript (using tsconfig.json)
-
-    tsc 
+## Building Docker container ##
+Typescript modules are transpiled during Docker build.
 
 Build Docker container (docker-compose.yaml)
 

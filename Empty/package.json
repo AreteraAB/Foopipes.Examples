@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "@types/node": "^6.0.45",
-	"contentaggregator": "^0.1.0"
+	"contentaggregator": "^0.5.0"
   }
 }

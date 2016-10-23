@@ -7,8 +7,6 @@ Quick start:
 
 Now you can browse to: <http://localhost:9200/ponty/_search?q=.NET>
 
-*Note:* this example has the compiled Typescript files in ./modules for ease of use. 
-
 ## This example does ##
 1. Fetch job adverts as json from external service
 2. Insert job adverts into elasticsearch
@@ -21,22 +19,10 @@ Now you can browse to: <http://localhost:9200/ponty/_search?q=.NET>
 * Invoking a binary node module
 * Dockerfile example using npm 
 * Docker-compose file with elasticsearch
-* Typescript 
+* Typescript 2.0
 
-## Building typescript ##
-Prerequisites: Node.js - <https://nodejs.org/>
-
-Install Typescript v2
-
-    npm install -g typescript
-
-Install dependencies (from package.json)
-
-    npm install
-
-Compile typescript (using tsconfig.json)
-
-    tsc 
+## Building Docker container ##
+Typescript modules are transpiled during Docker build.
 
 Build Docker container (docker-compose.yaml)
 

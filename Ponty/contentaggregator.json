@@ -1,13 +1,10 @@
 ﻿{
   "plugins": [
     {
-      "assemblyName": "ContentAggregator.Contentful"
-    },
-    {
       "assemblyName": "ContentAggregator.ElasticSearch"
     }
   ],
-  "inputs": {
+  "bindings": {
     "scheduler": {
       "type": "scheduler",
       "interval": "00:01:00"
@@ -23,20 +20,20 @@
   "pipelines": [
     {
       "inputs": [
-        { "name": "scheduler" },
+        { "binding": "scheduler" },
       ],
       "tasks": [
         { "type": "httpget", "url": "https://boxhill.ponty-system.se/extapi/job?p=gAAAAABWH1PwNdUderZKgnQfC5krfE_1e6mDXrVW5lE6LxwQM6toDKSgw5iCTkb1Hia94j8Uo5U-K4XcSpquklrAyFVsF5ZRbQ==" },
         { "type": "select", "path": "jobs[*]" }
       ],
       "outputs": [
-        { "name": "elasticsearch", "index": "ponty", "type": "job", "key": "#{assignment_id}" },
-        { "name": "queue", "topic": "ponty_image" }      
+        { "type": "store", "binding":"elasticsearch", "index": "ponty", "type": "job", "key": "#{assignment_id}" },
+        { "type": "queue", "topic": "ponty_image" }      
       ] 
     },
     {
       "inputs": [
-        { "name": "queue", "topic": "ponty_image" }
+        { "binding": "queue", "topic": "ponty_image" }
       ],
 
       "tasks": [
@@ -44,7 +41,7 @@
         { "type": "module", "module": "ImageResize", "function": "ImageResize"}
       ],
       "outputs": [
-        { "name": "file", "path": "/var/images", "filename": "#{assignment_id}.png" }
+        { "type": "file", "path": "/var/images", "filename": "#{assignment_id}.png" }
       ]
     } 
   ]
