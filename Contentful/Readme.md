@@ -1,4 +1,4 @@
-# Empty template #
+# Contentful #
 
 Quick start:
 
@@ -25,7 +25,7 @@ Now you can browse to: <http://localhost:9200/_search?q=>
 * Typescript 2.1 with async await
 
 ## Api keys ##
-Api keys are supplied by environment variables in `docker-compose.yaml`
+Contentful api keys are supplied by environment variables in `docker-compose.yaml`
 
 ## Webhooks ##
 For trying out the webhook callbacks you can use an utility like ngrok <https://ngrok.com/> to avoid exposing your 
@@ -33,14 +33,14 @@ containers directly.
 
 Start ngrok with `ngrok http 5000`
 
-In the Contentful gui, set up a webhook using the url given by ngrok.
+In the Contentful admin gui, configure a webhook using the url given by ngrok.
 
 ## Locales ##
-Contentful's sync-api and webhooks callbacks always returns content for all locales at once, but that is not always 
-the preferred way to consume the data. This example repo contains two config files, `contentful.json`and `contentful_locale.json` which
+Contentful's sync-api and webhooks callbacks always returns content for all locales at once. But that is not always 
+the preferred way to consume the data. This example repo contains two config files, `contentful.json` and `contentful_locale.json` which
 handles this differently depending on the needs.
 
-The first example simply stores all data just as it is received into the same index `contentful` in Elasticsearch.
+The first example simply stores all data as it is received into the same index `contentful` in Elasticsearch.
 The second example split the data into one document per locale, transforms it, and store the documents into 
 different indexes, `contentful_<locale>`.
 
