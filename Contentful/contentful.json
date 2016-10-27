@@ -1,0 +1,139 @@
+﻿{
+  "plugins": [
+    {
+      "assemblyName": "ContentAggregator.ElasticSearch"
+    }
+  ],
+  "bindings": {
+    "scheduler": {
+      "type": "scheduler",
+      "interval": "00:01:00"
+    },
+    "contentfulWebhook": {
+      "type": "httplistener",
+      "path": "contentfulwebhook"
+    },
+    "contentfulApi": {
+      "type": "httplistener",
+      "path": "contentful"
+    },
+    "elasticsearch": {
+      "type": "elasticsearch", 
+      "url": "http://${elasticsearch|localhost}:9200",
+      "termMappings": [
+        /*{ "index": "contentful", "typename": "entry", "field": "fields.url" },
+        { "index": "contentful", "typename": "entry", "field": "fields.parent.sys.id" },*/
+        { "index": "contentful", "typename": "entry", "field": "sys.contentType.sys.id" }
+      ]
+    }
+  },
+
+  "pipelines": [
+
+    /* ---------------------------------------------------------------------------------------------------
+    ** Pipeline for scheduled polling of Contentful's Sync api 
+    */
+    {
+      "inputs": [
+        { "binding": "scheduler" },
+        { "binding": "queue", "topic": "contentful_fetchupdates" }
+      ],
+      "tasks": [
+        { "type": "module", "module": "contentful", "function": "fetchUpdates", "spaceId": "${spaceId|cfexampleapi}", "accessToken": "${accessToken|b4c0n73n7fu1}"},
+        { "type": "select", "path": "assets[*]", "publishAndWait": "contentful_asset", "keepResult": false },
+        { "type": "select", "path": "entries[*]" }
+      ],
+      "outputs": [
+        { "type": "store", "binding": "elasticsearch", "index": "contentful", "dataType":"entry", "key": "#{sys.id}" }
+      ] 
+    },    
+
+    /* ---------------------------------------------------------------------------------------------------
+    ** A set of pipelines for updates received from a webhook calls to http://.../contentfulwebhook 
+    */
+    {
+      // Handle publish of Entries
+      "inputs": [
+        { "binding": "contentfulWebhook" }
+      ],
+      "tasks": [
+        { "type": "where", "path": "headers.X-Contentful-Topic", "equal": "ContentManagement.Entry.publish"},
+        { "type": "select", "path": "body" }
+      ],
+      "outputs": [
+        { "type": "store", "binding": "elasticsearch", "index": "contentful", "dataType":"entry", "key": "#{sys.id}" }
+      ] 
+    },
+    {
+      // Handle publish of Assets
+      "inputs": [
+        { "binding": "contentfulWebhook" }
+      ],
+      "tasks": [
+        { "type": "where", "path": "headers.X-Contentful-Topic", "equal": "ContentManagement.Asset.publish"},
+        { "type": "select", "path": "body" }
+      ],
+      "outputs": [
+        { "type": "queue", "topic": "contentful_asset"  }
+      ] 
+    },
+
+    {
+      // Handle deletion of Entries
+      "inputs": [
+        { "binding": "contentfulWebhook" }
+      ],
+      "tasks": [
+        { "type": "where", "path": "headers.X-Contentful-Topic", "equal": "ContentManagement.Entry.unpublish"},
+        { "type": "select", "path": "body" },
+        { "type": "delete", "binding": "elasticsearch", "index": "contentful", "dataType": "entry", "key": "#{sys.id}"}
+      ] 
+    },
+    {
+      // Handle deletion of Assets
+      "inputs": [
+        { "binding": "contentfulWebhook" }
+      ],
+      "tasks": [
+        { "type": "where", "path": "headers.X-Contentful-Topic", "equal": "ContentManagement.Asset.unpublish"},
+        { "type": "select", "path": "body" },
+        { "type": "delete", "binding": "elasticsearch", "index": "contentful", "dataType": "asset", "key": "#{sys.id}"}      
+      ]
+    },
+
+
+
+    /* -----------------------------------------------------------------
+    ** Pipelines for Assets and downloading of images 
+    */
+    {
+      // Assets to Elasticsearch
+      "inputs": [
+        { "binding": "queue", "topic": "contentful_asset" }
+      ],
+
+      "tasks": [
+        { "type": "select", "path": "$", "publishAndWait": "contentful_image", "keepResult": "false" }
+      ],
+      "outputs": [
+        { "type": "store", "binding": "elasticsearch", "index": "contentful", "dataType":"asset", "key": "#{sys.id}" }
+      ]
+    },
+    {
+      // Download of Asset image and store as file
+      "inputs": [
+        { "binding": "queue", "topic": "contentful_image" }
+      ],
+
+      "tasks": [
+        { "type": "module", "module": "contentful", "function": "createNewEntryPerLocale" },
+        { "type": "where", "path": "fields.file.url", "null": "false" },
+        { "type": "httpget", "url": "http:#{fields.file.url}", "format": "binary"}
+      ],
+      "outputs": [
+        { "type": "file", "path": "c:\\temp", "filename": "#{sys.id}_#{locale}"  } 
+      ]
+    }
+  ]
+}
+

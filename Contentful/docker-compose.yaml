@@ -1,0 +1,21 @@
+version: '2'
+services:
+  elasticsearch:
+    image: elasticsearch:latest
+    ports:
+     - "9200:9200"
+     - "9300:9300"
+
+  contentaggregator:
+    build: .
+    command: --f=project/contentful.json --scheduler=on
+    volumes:
+     - ./images:/var/images
+    ports:
+     - "5000:5000"
+    links:
+     - elasticsearch
+    environment:
+     - elasticsearch=elasticsearch
+     - spaceId=cfexampleapi
+     - accessToken=b4c0n73n7fu1
