@@ -19,7 +19,7 @@ Now you can browse to: <http://localhost:9200/_search?q=>
 * Using Elasticsearch as a key-value store for keeping state between polls
 * Transformation of data using a Node.js module.
 * Async fetching of data by using message queuing.
-* "PublishAndWait" to make sure all asset images are downloaded before an entry is saved to Elasticsearch.
+* "Publish" and "await" to make sure all asset images are downloaded before an entry is saved to Elasticsearch.
 * Dockerfile example using npm 
 * Docker-compose file with elasticsearch
 * Typescript 2.1 with async await
