@@ -19,7 +19,7 @@
     },
     "elasticsearch": {
       "type": "elasticsearch", 
-      "url": "http://${elasticsearch|localhost}:9200",
+      "url": "http://${elasticsearch:-localhost}:9200",
       "termMappings": [
         { "index": "contentful_sv", "typename": "entry", "field": "sys.contentType.sys.id" },
         { "index": "contentful_en-us", "typename": "entry", "field": "sys.contentType.sys.id" }
@@ -38,7 +38,7 @@
         { "binding": "queue", "topic": "contentful_fetchupdates" }
       ],
       "tasks": [
-        { "type": "module", "module": "contentful", "function": "fetchUpdates", "spaceId": "${spaceId|cfexampleapi}", "accessToken": "${accessToken|b4c0n73n7fu1}"},
+        { "type": "module", "module": "contentful", "function": "fetchUpdates", "spaceId": "${spaceId:-cfexampleapi}", "accessToken": "${accessToken:-b4c0n73n7fu1}"},
         { "type": "select", "path": "assets[*]", "publish": "contentful_asset", "await": true, "keepResult": false },
         { "type": "select", "path": "entries[*]" },
         { "type": "module", "module": "contentful", "function": "createNewEntryPerLocale" }

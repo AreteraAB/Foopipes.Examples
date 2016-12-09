@@ -11,7 +11,7 @@
     },
     "elasticsearch": {
       "type": "elasticsearch", 
-      "url": "http://${elasticsearch|localhost}:9200",
+      "url": "http://${elasticsearch:-localhost}:9200",
       "termMappings": [
       ]
     }
