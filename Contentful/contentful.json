@@ -131,7 +131,7 @@
         { "type": "httpget", "url": "http:#{fields.file.url}", "format": "binary"}
       ],
       "outputs": [
-        { "type": "file", "path": "c:\\temp", "filename": "#{sys.id}_#{locale}"  } 
+        { "type": "file", "path": "/var/images", "filename": "#{sys.id}_#{locale}"  } 
       ]
     }
   ]
