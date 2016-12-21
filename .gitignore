@@ -1,2 +1,4 @@
 Ponty/images/
 **/node_modules/
+Hugo/output
+Hugo/src/content

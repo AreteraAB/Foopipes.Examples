@@ -1,0 +1,26 @@
+﻿{
+  "plugins": [
+  ],
+  "bindings": {
+    "scheduler": {
+      "type": "scheduler",
+      "interval": "00:01:00"
+    }
+  },
+
+  "pipelines": [
+    {
+      "inputs": [
+        { "binding": "scheduler" },
+      ],
+      "tasks": [
+        { "type": "httpget", "url": "https://boxhill.ponty-system.se/extapi/job?p=gAAAAABWH1PwNdUderZKgnQfC5krfE_1e6mDXrVW5lE6LxwQM6toDKSgw5iCTkb1Hia94j8Uo5U-K4XcSpquklrAyFVsF5ZRbQ==" },
+        { "type": "select", "path": "jobs[*]" },
+        { "type": "module", "module": "hugo", "function": "formatJob" }
+      ],
+      "outputs": [
+		{ "type": "file", "path": "/var/content", "filename": "#{metadata:filename}"  }
+		] 
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+version: '2'
+services:
+  hugo:
+    image: aretera/hugo:latest
+    volumes:
+     - ./images:/images
+     - ./src:/src
+     - ./output/:/output
+    environment:
+     - HUGO_WATCH=True
+     - HUGO_THEME=hugo_theme_robust
+     - HUGO_BASEURL=localhost
+    command: ["/run.sh", "--appendPort=false"]
+
+  contentaggregator:
+    build: .
+    volumes:
+     - ./src/images:/var/images
+     - ./src/content:/var/content
+    ports:
+     - 5000:5000
+    environment:
+     - elasticsearch=elasticsearch
+
+  web:
+     image: jojomi/nginx-static
+     volumes:
+      - ./output:/var/www
+     environment:
+      - VIRTUAL_HOST=localhost
+     ports:
+      - 80:80
+     restart: always
