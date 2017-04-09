@@ -127,7 +127,7 @@
 
       "tasks": [
         { "type": "module", "module": "contentful", "function": "createNewEntryPerLocale" },
-        { "type": "where", "path": "fields.file.url", "null": "false" },
+        { "type": "where", "path": "fields.file.url", "isnull": "false" },
         { "type": "httpget", "url": "http:#{fields.file.url}", "format": "binary"}
       ],
       "outputs": [
