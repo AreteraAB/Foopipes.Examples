@@ -10,8 +10,6 @@ services:
     build: .
     volumes:
      - ./images:/var/images
-    ports:
-     - "5000:5000"
     links:
      - elasticsearch
     environment:

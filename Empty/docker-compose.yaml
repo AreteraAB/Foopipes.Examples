@@ -11,7 +11,7 @@ services:
     volumes:
      - ./images:/var/images
     ports:
-     - "5000:5000"
+     - 80
     links:
      - elasticsearch
     environment:
