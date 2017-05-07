@@ -1,0 +1,32 @@
+﻿plugins:
+  - Elasticsearch
+
+services: {
+  scheduler:
+    type: scheduler
+    interval: "00:01:00"
+  elasticsearch:
+    type: elasticsearch, 
+    url: "http://${elasticsearch:-localhost}:9200"
+    termMappings:
+
+pipelines:
+  -
+    when:
+      - { service: scheduler }
+    from:
+      - { task: httpget, url: "https://boxhill.ponty-system.se/extapi/job?p=gAAAAABWH1PwNdUderZKgnQfC5krfE_1e6mDXrVW5lE6LxwQM6toDKSgw5iCTkb1Hia94j8Uo5U-K4XcSpquklrAyFVsF5ZRbQ==" }
+    do:
+      - { task: select, path: "jobs[*]" }
+    to:
+      - { task: store, service: elasticsearch, index: ponty, dataType: job, key: "#{assignment_id}" }
+      - { task: publish, topic: ponty_image }      
+  -
+    when:
+      - { service: queue, topic: ponty_image }
+    from:
+      - { task: httpget, url: "#{image_url}", format: binary }
+    do:
+      - { task: module, module: ImageResize, function: ImageResize }
+    to:
+      - { task: file, path: "/var/images", filename: "#{assignment_id}.png" }

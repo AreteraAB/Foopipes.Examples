@@ -1,15 +1,15 @@
 # Ponty example #
 
 Quick start:
-
-    docker-compose build
-    docker-compose up
+```
+docker-compose up
+```
 
 Now you can browse to: <http://localhost:9200/ponty/_search?q=.NET>
 
 ## This example does ##
 1. Fetch job adverts as json from external service
-2. Insert job adverts into elasticsearch
+2. Insert job adverts into Elasticsearch
 3. Fetch images in adverts
 4. Scale image to 300x300 and store as file using a node module.
 
@@ -20,22 +20,14 @@ Now you can browse to: <http://localhost:9200/ponty/_search?q=.NET>
 * Dockerfile example using npm 
 * Docker-compose file with elasticsearch
 * Typescript 2.0
+* Using plugins
 
-## Building Docker container ##
-Typescript modules are transpiled during Docker build.
+## Docker images ##
+This repo contains a docker-compose.yml file with Foopipes and Elasticsearch.
 
-Build Docker container (docker-compose.yaml)
-
-    docker-compose build
-
-Or:
-
-    docker build -t myaggregator .
+Typescript modules are transpiled during start of the Foopipes container.
 
 Start with:
-
-    docker-compose up
-
-Or:
-
-    docker -v ~/images:/var/images -p 5000:5000 myaggregator
+```
+docker-compose up
+```
