@@ -7,8 +7,7 @@ services:
      - "9300:9300"
 
   contentaggregator:
-    build: .
-    command: --f=project/contentful.json --scheduler=on
+    image: aretera/foopipes:latest-sdk
     volumes:
      - ./images:/var/images
     ports:
@@ -16,6 +15,5 @@ services:
     links:
      - elasticsearch
     environment:
-     - elasticsearch=elasticsearch
      - spaceId=cfexampleapi
      - accessToken=b4c0n73n7fu1

@@ -1,9 +1,9 @@
 # Contentful #
 
 Quick start:
-
-    docker-compose build
+```
     docker-compose up
+```
 
 Now you can browse to: <http://localhost:9200/_search?q=>
 
@@ -50,18 +50,8 @@ Edit `docker-compose.yaml` to specify what config file you'd like to use.
 ## Building Docker container ##
 Typescript modules are transpiled during Docker build.
 
-Build Docker container (docker-compose.yaml)
-
-    docker-compose build
-
-Or:
-
-    docker build -t myaggregator .
 
 Start with:
-
+```
     docker-compose up
-
-Or:
-
-    docker run -p 5000:5000 myaggregator
+```
