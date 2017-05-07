@@ -1,7 +1,7 @@
 version: '2'
 services:
   elasticsearch:
-    image: elasticsearch:2
+    image: elasticsearch:latest
     ports:
      - "9200:9200"
      - "9300:9300"
@@ -10,10 +10,12 @@ services:
     image: aretera/foopipes:latest-sdk
     volumes:
      - ./images:/var/images
+     - .:/project
     ports:
      - 80
     links:
      - elasticsearch
     environment:
+     - elasticsearch=elasticsearch
      - spaceId=cfexampleapi
      - accessToken=b4c0n73n7fu1

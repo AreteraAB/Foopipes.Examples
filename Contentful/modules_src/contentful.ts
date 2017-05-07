@@ -23,7 +23,7 @@ function getClient(context: foopipes.ICallContext) {
 export async function fetchUpdates(event: Object, context: foopipes.ICallContext): Promise<foopipes.IResult>{
     const client = getClient(context);
 
-    const synctoken = await foopipes.bindValue(context, "#{content:ContentfulSyncToken}");
+    const synctoken = await foopipes.bindValue(context, "#{elasticsearch:ContentfulSyncToken}");
     let syncResponse;
     if (synctoken == null || synctoken.length === 0) {
         console.log("Initial sync");
@@ -40,7 +40,7 @@ export async function fetchUpdates(event: Object, context: foopipes.ICallContext
     }
     console.log(`Got ${syncResponse.entries.length} entries, ${syncResponse.assets.length} assets, and nextSyncToken is ${syncResponse.nextSyncToken}`);
 
-    await foopipes.setValue(context, "content:ContentfulSyncToken", syncResponse.nextSyncToken);
+    await foopipes.setValue(context, "elasticsearch:ContentfulSyncToken", syncResponse.nextSyncToken);
 
     if (syncResponse.entries.length > 0 || syncResponse.assets.length > 0) {
         await foopipes.publish(context, "contentful_fetchupdates_nextpage", {});
