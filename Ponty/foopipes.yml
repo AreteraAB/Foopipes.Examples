@@ -1,14 +1,13 @@
 ﻿plugins:
   - Elasticsearch
 
-services: {
+services:
   scheduler:
     type: scheduler
     interval: "00:01:00"
   elasticsearch:
-    type: elasticsearch, 
+    type: elasticsearch
     url: "http://${elasticsearch:-localhost}:9200"
-    termMappings:
 
 pipelines:
   -

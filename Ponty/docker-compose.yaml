@@ -9,6 +9,7 @@ services:
   foopipes:
     image: aretera/foopipes:latest-sdk
     volumes:
+     - .:/project
      - ./images:/var/images
     links:
      - elasticsearch
