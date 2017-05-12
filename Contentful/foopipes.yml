@@ -11,7 +11,7 @@ services:
     type: elasticsearch 
     url: "http://${elasticsearch:-localhost}:9200"
     termMappings:        
-        - { index: contentful, typename: entry, field: "sys.contentType.sys.id" }
+        - { index: contentful, dataType: entry, field: "sys.contentType.sys.id" }
 
 pipelines: 
  # Pipeline for scheduled polling of Contentful's Sync api 
