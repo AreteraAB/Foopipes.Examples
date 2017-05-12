@@ -7,7 +7,7 @@ services:
      - "9300:9300"
 
   foopipes:
-    image: aretera/foopipes:next-sdk
+    image: aretera/foopipes:latest-sdk
     volumes:
      - .:/project
      - ./images:/var/images
