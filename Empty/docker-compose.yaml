@@ -6,9 +6,10 @@ services:
      - "9200:9200"
      - "9300:9300"
 
-  contentaggregator:
-    build: .
+  foopipes:
+    image: aretera/foopipes:next-sdk
     volumes:
+     - .:/project
      - ./images:/var/images
     ports:
      - 80

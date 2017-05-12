@@ -1,0 +1,23 @@
+﻿plugins:
+  - Elasticsearch
+
+services:
+  scheduler:
+    type: scheduler
+    interval: "00:01:00"
+  elasticsearch:
+    type: elasticsearch 
+    url: "http://${elasticsearch:-localhost}:9200"
+
+pipelines: 
+  - 
+    when:
+      - { service: scheduler }
+    from:
+    do:
+      - { task: module, module: myModule, function: myFunction }
+    to:
+      - { task: store, service: elasticsearch, index: myindex, dataType: mydatatype, key: "#{myId}" }
+    then:
+    error:
+    finally:
